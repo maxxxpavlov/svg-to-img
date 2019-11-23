@@ -5,6 +5,7 @@ beforeEach(() => {
   // Mock img.addEventListener("load|error", () => {});
   Element.prototype.addEventListener = jest.fn((event, callback) => {
     if (event === "load") {
+      // @ts-ignore
       setTimeout(callback, 10);
     }
   });
@@ -18,7 +19,7 @@ describe("Helper functions", () => {
   });
 
   test("Stringify function", async () => {
-    const func = stringifyFunction((str: string, obj: object, num: number) => str + obj + num, "a", {a: 1}, 1);
+    const func = stringifyFunction((str: string, obj: object, num: number) => str + obj + num, "a", { a: 1 }, 1);
 
     expect(func).toEqual(`((str, obj, num) => str + obj + num)(\`a\`,{"a":1},1)`);
   });
@@ -65,6 +66,7 @@ describe("Helper functions", () => {
   test("Malformed SVG", async () => {
     Element.prototype.addEventListener = jest.fn((event, callback) => {
       if (event === "error") {
+        // @ts-ignore
         setTimeout(callback, 10);
       }
     });

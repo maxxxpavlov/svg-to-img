@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as svgToImg from "../index";
 import { md5 } from "./helpers";
 import * as rimraf from "rimraf";
-import * as sizeOf from "image-size";
+import { imageSize } from "image-size";
 
 const inputDir = "./src/tests/svg";
 const outputDir = "./src/tests/img";
@@ -20,12 +20,12 @@ describe("SVG to image conversion", () => {
       type: "jpeg"
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "jpg",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("677e67f0c96c14a79032351d5691bcb2");
+    expect(md5(data)).toEqual("242fac8e57f2c24e6865733c78ffd49a");
   });
 
   test("From string to image", async () => {
@@ -33,12 +33,12 @@ describe("SVG to image conversion", () => {
       type: "png"
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("7c310bf3a7267c656d926ce5c8a1c365");
+    expect(md5(data)).toEqual("d7f42c771389e20ef07397ebcd3aa5ac");
   });
 
   test("Infer file type from file extension", async () => {
@@ -48,12 +48,12 @@ describe("SVG to image conversion", () => {
 
     const data = fs.readFileSync(`${outputDir}/image.jpg`);
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "jpg",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("677e67f0c96c14a79032351d5691bcb2");
+    expect(md5(data)).toEqual("242fac8e57f2c24e6865733c78ffd49a");
   });
 
   test("Unknown file extension", async () => {
@@ -63,12 +63,12 @@ describe("SVG to image conversion", () => {
 
     const data = fs.readFileSync(`${outputDir}/image.ext`);
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("7c310bf3a7267c656d926ce5c8a1c365");
+    expect(md5(data)).toEqual("d7f42c771389e20ef07397ebcd3aa5ac");
   });
 
   test("Base64 encoded output", async () => {
@@ -76,12 +76,12 @@ describe("SVG to image conversion", () => {
       encoding: "base64"
     });
 
-    expect(sizeOf(Buffer.from(data as string, "base64"))).toEqual({
+    expect(imageSize(Buffer.from(data as string, "base64"))).toEqual({
       type: "png",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("d8d4ae8a0824a579c7ca32a7ee93a678");
+    expect(md5(data)).toEqual("de0dcfb7ab63a50140c2ab562bd2d942");
   });
 
   test("HEX encoded output", async () => {
@@ -89,12 +89,12 @@ describe("SVG to image conversion", () => {
       encoding: "hex"
     });
 
-    expect(sizeOf(Buffer.from(data as string, "hex"))).toEqual({
+    expect(imageSize(Buffer.from(data as string, "hex"))).toEqual({
       type: "png",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("dd8d4c070bb6db33ad15ace8dd56e61c");
+    expect(md5(data)).toEqual("492efd51b52dc7376343202ee67225ca");
   });
 
   test("JPEG compression", async () => {
@@ -102,12 +102,12 @@ describe("SVG to image conversion", () => {
       quality: 0
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "jpg",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("435447377ac681b187d8d55a65ea6b37");
+    expect(md5(data)).toEqual("2b6a20b486cf02671c13c0cb9e6bac1d");
   });
 
   test("WEBP compression", async () => {
@@ -115,12 +115,12 @@ describe("SVG to image conversion", () => {
       quality: 0
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "webp",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("b5a88a19087b48e6aafacf688699ff0a");
+    expect(md5(data)).toEqual("aef2e325aa30cd0299ee95c56ff49b9c");
   });
 
   test("Custom width and height", async () => {
@@ -129,12 +129,12 @@ describe("SVG to image conversion", () => {
       height: 200
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 1000,
       height: 200
     });
-    expect(md5(data)).toEqual("35053a5b747abffa7cb1aba24bbbd603");
+    expect(md5(data)).toEqual("c683880ab02c0e76243d0abaceffe0c8");
   });
 
   test("Custom background color", async () => {
@@ -142,12 +142,12 @@ describe("SVG to image conversion", () => {
       background: "#09f"
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 406,
       height: 206
     });
-    expect(md5(data)).toEqual("f7c37d538eb948f6609d15d871b3f078");
+    expect(md5(data)).toEqual("580c3453b5d102d5b06411c8a1fc4b23");
   });
 
   test("Malformed SVG", async () => {
@@ -163,12 +163,12 @@ describe("SVG to image conversion", () => {
   test("Responsive SVG (Infer natural dimensions)", async () => {
     const data = await svgToImg.from(responsiveSvgBuffer).toPng();
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 187,
       height: 150
     });
-    expect(md5(data)).toEqual("a35bb124b354bb861a6b65118ff16dde");
+    expect(md5(data)).toEqual("1b1fe94386407eecc2d083882aa73589");
   });
 
   test("Resize responsive SVG (Squashed)", async () => {
@@ -177,12 +177,12 @@ describe("SVG to image conversion", () => {
       height: 100
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 300,
       height: 100
     });
-    expect(md5(data)).toEqual("f6571224da1e85780c7dc0ea66b7c95c");
+    expect(md5(data)).toEqual("cf75cb874aad3174a90936c9b6454cf8");
   });
 
   test("Resize responsive SVG (Proportionally)", async () => {
@@ -190,29 +190,29 @@ describe("SVG to image conversion", () => {
       width: 300
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 300,
       height: 241
     });
-    expect(md5(data)).toEqual("1245ca2a1868e5148d0bbeacc0245d25");
+    expect(md5(data)).toEqual("6cd910ca5ebee7366cb6ec51da090b45");
   });
 
   test("SVG to PNG shorthand", async () => {
     const data = await svgToImg.from(responsiveSvgBuffer).toPng();
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 187,
       height: 150
     });
-    expect(md5(data)).toEqual("a35bb124b354bb861a6b65118ff16dde");
+    expect(md5(data)).toEqual("1b1fe94386407eecc2d083882aa73589");
   });
 
   test("SVG to JPEG shorthand", async () => {
     const data = await svgToImg.from(responsiveSvgBuffer).toJpeg();
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "jpg",
       width: 187,
       height: 150
@@ -223,12 +223,12 @@ describe("SVG to image conversion", () => {
   test("SVG to WEBP shorthand", async () => {
     const data = await svgToImg.from(responsiveSvgBuffer).toWebp();
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "webp",
       width: 187,
       height: 150
     });
-    expect(md5(data)).toEqual("b1080b283475987c0d57dd16a9f19288");
+    expect(md5(data)).toEqual("d7e682534f5118c62659afe5b13fe33e");
   });
 
   test("Clip the image", async () => {
@@ -241,12 +241,12 @@ describe("SVG to image conversion", () => {
       }
     });
 
-    expect(sizeOf(data as Buffer)).toEqual({
+    expect(imageSize(data as Buffer)).toEqual({
       type: "png",
       width: 100,
       height: 100
     });
-    expect(md5(data)).toEqual("68c1e882efb0a3ce1791e5a6e6b80bd7");
+    expect(md5(data)).toEqual("29f7cd260d1ceaa8aef7964e5f2f7ae0");
   });
 
   test("Wait for browser destruction", async (done) => {
