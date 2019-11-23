@@ -3,10 +3,10 @@
 #### A node.js library to convert SVGs to images built with [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 [![Coveralls github](https://img.shields.io/coveralls/github/maxxxpavlov/svg-to-img.svg)](https://coveralls.io/github/maxxxpavlov/svg-to-img)
-[![CircleCI build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://circleci.com/gh/maxxxpavlov/svg-to-img)
-[![node version](https://img.shields.io/node/v/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/svg-to-img)
-[![npm version](https://img.shields.io/npm/v/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/svg-to-img)
-[![npm monthly downloads](https://img.shields.io/npm/dm/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/svg-to-img)
+
+[![node version](https://img.shields.io/node/v/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/@lildiary/svg-to-img)
+[![npm version](https://img.shields.io/npm/v/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/@lildiary/svg-to-img)
+[![npm monthly downloads](https://img.shields.io/npm/dm/@lildiary/svg-to-img.svg)](https://www.npmjs.com/package/@lildiary/svg-to-img)
 
 ## Getting Started
 
